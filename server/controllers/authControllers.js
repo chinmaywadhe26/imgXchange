@@ -1,4 +1,8 @@
 const login = async(req, res)=>{
 
 };
-module.exports = {login};
+const signup = async () => {
+
+}
+
+module.exports = {login, signup};
