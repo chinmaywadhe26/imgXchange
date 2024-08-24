@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-// import toast from react-hot-toast;
+import toast, { Toaster } from "react-hot-toast";
 const Signup = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({
@@ -41,11 +41,13 @@ const Signup = () => {
         );
 
         if (data.success === true) {
-          console.log(data.message);
+          toast.success(data.message);
           navigate("/login");
         } else {
-          console.log(data.message);
+          toast.error(data.message);
         }
+      } else {
+        toast.error("enter complete details");
       }
     } catch (error) {
       console.error("Signup error:", error);
@@ -134,6 +136,7 @@ const Signup = () => {
           </button>
         </form>
       </div>
+      <Toaster />
     </div>
   );
 };
