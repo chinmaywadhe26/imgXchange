@@ -1,11 +1,35 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { login } from "../../store/slices/authSlice";
+import toast, { Toaster } from "react-hot-toast";
+import { useDispatch } from "react-redux";
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(import.meta.env.VITE_API_URL + "/login", {
+        email,
+        password,
+      });
+      const data = await res.data;
+      toast.success(data.message);
+      dispatch(login(data));
+      navigate(`/${data.role}/profile`);
+    } catch (error) {
+      toast.error(error.data.message);
+    }
+  };
   return (
     <div className="mt-20 flex min-h-screen items-center justify-center w-full">
       <div className="bg-white shadow-md rounded-3xl px-5 py-6 w-full sm:w-[27rem]">
         <h1 className="text-2xl font-bold text-center mb-4">Let's connect!</h1>
-        <form>
+        <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label
               htmlFor="email"
@@ -18,6 +42,8 @@ const Login = () => {
               name="email"
               id="email"
               placeholder="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="shadow-md rounded-md w-full  px-3 py-2 border-gray-300 focus:outline-none focus:ring-black focus:border-black"
             />
           </div>
@@ -33,6 +59,8 @@ const Login = () => {
               name="password"
               id="password"
               placeholder="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="shadow-md rounded-md w-full  px-3 py-2 border-gray-300 focus:outline-none focus:ring-black focus:border-black"
             />
           </div>
@@ -50,6 +78,7 @@ const Login = () => {
           </button>
         </form>
       </div>
+      <Toaster />
     </div>
   );
 };

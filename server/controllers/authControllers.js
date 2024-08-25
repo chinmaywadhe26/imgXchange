@@ -55,8 +55,7 @@ const login = async(req, res)=>{
             accountType: user.accountType,
             author: user.username,
         }
-        console.log(process.env.ACCESS_TOKEN_SECRET);  // Should output your secret
-console.log(process.env.REFRESH_TOKEN_SECRET); // Should output your refresh secret
+     
 
         const accessToken = generateAccessToken(data)
         const refreshToken = generateRefreshToken(data)

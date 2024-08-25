@@ -26,32 +26,33 @@ const Signup = () => {
   };
 
   const handleSubmit = async (e) => {
-    try {
-      e.preventDefault();
-      const { username, email, password, accountType } = user;
-      if (handleValidation()) {
-        const { data } = await axios.post(
-          import.meta.env.VITE_API_URL + "/signup",
-          {
-            username,
-            email,
-            password,
-            accountType,
-          }
-        );
-
-        if (data.success === true) {
-          toast.success(data.message);
-          navigate("/login");
-        } else {
-          toast.error(data.message);
+    e.preventDefault();
+    const { username, email, password, accountType } = user;
+    // try {
+    if (handleValidation()) {
+      const { data } = await axios.post(
+        import.meta.env.VITE_API_URL + "/signup",
+        {
+          username,
+          email,
+          password,
+          accountType,
         }
+      );
+
+      if (data.success === true) {
+        toast.success(data.message);
+        navigate("/login");
       } else {
-        toast.error("enter complete details");
+        toast.error(data.message);
       }
-    } catch (error) {
-      console.error("Signup error:", error);
+    } else {
+      toast.error("enter complete details");
     }
+    // } catch (error) {
+    //   // console.error("Signup error:", error);
+    //   toast.error(error.response.data.message);
+    // }
   };
 
   return (

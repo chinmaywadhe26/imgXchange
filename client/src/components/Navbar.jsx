@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import React, { useState } from "react";
 
 import { FiMenu } from "react-icons/fi";
@@ -6,6 +6,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { IoCloseOutline } from "react-icons/io5";
 
 import clsx from "clsx";
+
 const Navbar = () => {
   // return (
   //   <nav className="flex flex-col sm:flex-row justify-between items-start sm:items-center px-5 py-5 fixed top-0 left-0 right-0 shadow-md gap-1 sm:gap-0 z-30 bg-white">
@@ -31,7 +32,7 @@ const Navbar = () => {
   //     </ul>
   //   </nav>
   // );
-
+  const { pathname } = useLocation();
   const [isSideMenuOpen, setMenu] = useState(false);
 
   const navlinks = [
@@ -55,7 +56,13 @@ const Navbar = () => {
 
   return (
     <main>
-      <nav className=" bg-white border-b-4 fixed top-0 left-0 right-0 z-50  flex justify-between px-8 items-center py-6   ">
+      <nav
+        className={`bg-white border-b-4  top-0 left-0 right-0 z-50  flex justify-between px-8 ${
+          pathname === "/seller/profile" || pathname === "/buyer/profile"
+            ? "hidden"
+            : "fixed"
+        } items-center py-6`}
+      >
         <div className="flex items-center gap-8">
           <section className="flex items-center gap-4">
             {/* menu */}

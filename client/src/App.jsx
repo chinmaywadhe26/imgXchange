@@ -1,13 +1,17 @@
 import { BrowserRouter } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import GsapTransition from "./components/GsapTransition";
+import { Provider } from "react-redux";
+import { store } from "../store/store";
 export default function App() {
   return (
     <>
-      <BrowserRouter>
-        <Navbar />
-        <GsapTransition />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Navbar />
+          <GsapTransition />
+        </BrowserRouter>
+      </Provider>
     </>
   );
 }
