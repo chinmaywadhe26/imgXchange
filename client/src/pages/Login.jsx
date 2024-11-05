@@ -18,6 +18,7 @@ const Login = () => {
         password,
       });
       const data = await res.data;
+      console.log(data)
       toast.success(data.message);
       dispatch(login(data));
       navigate(`/${data.role}/profile`);

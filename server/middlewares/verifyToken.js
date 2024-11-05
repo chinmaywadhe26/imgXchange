@@ -18,7 +18,7 @@ const verifyToken = async (req, res, next) => {
             req.id = user.id;
             req.author = user.author;
             req.accountType = user.accountType;
-            next()
+            next();
         })
     }catch(error){
         return res.json({
@@ -28,3 +28,4 @@ const verifyToken = async (req, res, next) => {
     }
 
 }
+module.exports = {verifyToken}
