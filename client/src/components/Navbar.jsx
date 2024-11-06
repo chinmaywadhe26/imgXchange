@@ -1,11 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { FiMenu } from "react-icons/fi";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { IoCloseOutline } from "react-icons/io5";
-
+import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
+import { login, logout } from "../../store/slices/authSlice";
+import axios from "axios";
 
 const Navbar = () => {
   // return (
@@ -33,6 +35,9 @@ const Navbar = () => {
   //   </nav>
   // );
   const { pathname } = useLocation();
+  const isAuthenticated = useSelector((state) => state.isAuthenticated);
+  const role = useSelector((state) => state.auth.role);
+
   const [isSideMenuOpen, setMenu] = useState(false);
 
   const navlinks = [
@@ -54,6 +59,34 @@ const Navbar = () => {
     },
   ];
 
+  const dispatch = useDispatch();
+
+  const refreshToken = async () => {
+    try {
+      const res = await axios.get(import.meta.env.VITE_API_URL + "/refresh", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("refreshToken"),
+        },
+      });
+
+      const data = await res.data;
+      dispatch(login(data));
+    } catch (error) {
+      console.log("refresh error ", error);
+      dispatch(logout());
+    }
+  };
+  useEffect(() => {
+    console.log("Stored refresh token:", localStorage.getItem("refreshItem"));
+
+    const interval = setInterval(() => {
+      refreshToken();
+    }, 1000 * 60 * 0.5);
+    
+    console.log("Stored refresh token:", localStorage.getItem("refreshItem"));
+
+    return () => clearInterval(interval);
+  }, []);
   return (
     <main>
       <nav

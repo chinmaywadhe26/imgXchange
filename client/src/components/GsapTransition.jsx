@@ -7,6 +7,8 @@ import BuyerDashboard from "../pages/BuyerDashboard";
 import Login from "../pages/Login";
 import gsap from "gsap";
 import { useRef } from "react";
+import ProtectedRoute from "./ProtectedRoute";
+
 
 const GsapTransition = () => {
   const nodeRef = useRef(null);
@@ -21,14 +23,13 @@ const GsapTransition = () => {
     <div ref={nodeRef}>
       <Routes location={location}>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-
-        <Route path="/seller/profile" element={<SellerDashboard />} />
-        <Route path="/buyer/profile" element={<BuyerDashboard />} />
+        <Route path="/login" element={<ProtectedRoute children={<Login/>} requiresAuth={false}/>} />
+        <Route path="/signup" element={<ProtectedRoute children={<Signup />} requiresAuth={false}/>} />
+        <Route path="/seller/profile" element={<ProtectedRoute children={<SellerDashboard />}/>} />
+        <Route path="/buyer/profile" element={<ProtectedRoute children={<BuyerDashboard />}/>} />
       </Routes>
     </div>
   );
 };
 
-export default GsapTransition;
+export default GsapTransition
