@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
         type:String,
         required: true,
     },
-    accountType:{
+    accountType:{ 
         type:String,
         default:"buyer",
     },
@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
             ref:"Post",
         },
     ],
-      purchased:[
+    purchased:[
         {
             type:mongoose.Schema.Types.ObjectId,
             ref:"Post",

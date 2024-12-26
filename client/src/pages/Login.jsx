@@ -18,9 +18,10 @@ const Login = () => {
         password,
       });
       const data = await res.data;
-      console.log(data)
+      console.log("login data: ", data);
       toast.success(data.message);
       dispatch(login(data));
+      console.log(data.role);
       navigate(`/${data.role}/profile`);
     } catch (error) {
       toast.error(error.data.message);

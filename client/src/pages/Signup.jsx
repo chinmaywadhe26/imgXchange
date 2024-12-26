@@ -42,6 +42,7 @@ const Signup = () => {
 
       if (data.success === true) {
         toast.success(data.message);
+        console.log("acc type is", user.accountType);
         navigate("/login");
       } else {
         toast.error(data.message);
@@ -117,9 +118,11 @@ const Signup = () => {
             </label>
             <select
               name="accountType"
+              value={user.accountType}
               onChange={(e) => handleChange(e)}
               className="shadow-md rounded-md w-full  px-3 py-2 border-gray-300 focus:outline-none focus:ring-black focus:border-black"
             >
+              <option value="">Select account type</option>
               <option value="buyer">Buyer</option>
               <option value="seller"> Seller</option>
             </select>

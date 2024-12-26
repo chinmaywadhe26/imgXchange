@@ -5,7 +5,7 @@ const createPost = async ( req, res) => {
     const authorAccountType = req.accountType;
     if(authorAccountType === "buyer"){
         return res
-      .status(403)
+      .status(403)                                                                                                              
       .json({ success: false, message: "Forbidden, only sellers can post" });
     }
     const {title, author, price, image, publicId} = req.body;
@@ -86,6 +86,7 @@ const deletePost = async(req, res) => {
 
 const searchPosts  = async(req, res) => {
     const {search} = req.query;
+    // console.log(search)
 try{
     const posts = await Post.find({title: {$regex: search, $options: "i"}})
     if(posts.length == 0 ){
@@ -93,6 +94,7 @@ try{
             success:false, message: "no posts found"
         })
     }
+    // console.log(posts)
     return res.status(200).json({
         success: true, data: posts
     })
@@ -156,4 +158,48 @@ const getFavourites = async(req, res) => {
         
 } 
 
-module.exports = {createPost, getAllPosts, getMyPosts, deletePost, searchPosts, addToFavourites, RemoveFromFavourites, getFavourites}
+const getPostsByRange = async (req, res) => {
+    const  authorId = req.id
+    const authorAccountType = req.accountType
+    let data 
+    try{
+        if(authorAccountType === "buyer"){
+            const {purchased} = await User.findById(authorId).populate('purchased')
+            data = purchased
+        }
+        else{
+            const {uploads} = await User.findById(authorId).populate('uploads')
+            data = uploads
+        }
+
+        if(!data) return res.status(500).json({
+            success: "false", message: "no posts found"
+        })
+
+        const now = new Date()
+        const startOfYear = new Date(now.getFullYear(), 0, 1)
+        const startOfMonth = new Date(now.getFulYear, now.getMonth, 1)
+        const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay()))
+        const postsThisYear = data.filter((post) => new Date(post.createdAt) >= startOfYear)
+        const postsThisMonth = data.filter((post) => new Date(post.createdAt) >= startOfMonth)
+        const postsThisWeek = data.filter((post) => new Date(post.createdAt) >= startOfWeek)
+        console.log("posts controller", "postsThisYear:", postsThisYear,"postsThisWeek:", postsThisWeek, "postsThisMonth:", postsThisMonth )
+        return res.status(200).json({
+            success: true, 
+            data: {
+                tillNow: data, 
+                thisYear : postsThisYear,
+                thisMonth: postsThisMonth,
+                thisWeek: postsThisWeek
+            }
+        })
+    }catch(err){
+        return res.status(500).json({
+            success: false, message: err.message
+        })
+    }
+
+}
+
+
+module.exports = {createPost, getAllPosts, getMyPosts, deletePost, searchPosts, addToFavourites, RemoveFromFavourites, getFavourites, getPostsByRange}

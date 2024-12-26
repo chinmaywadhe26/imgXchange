@@ -66,7 +66,7 @@ const ImageAdd = () => {
   };
 
   return (
-    <div className="p-5 bg-white mx-9 rounded-2xl shadow-md">
+    <div className="p-5 bg-white mx-9 rounded-2xl shadow-md ">
       <h2 className="text-xl font-bold">Add New Product</h2>
       <form className="gird grid-cols-1 gap-2 my-4" onSubmit={addPost}>
         <img
@@ -124,7 +124,7 @@ const ImageAdd = () => {
             id="price"
             required
             className="rounded-lg border outline-none px-3 py-1 mt-1"
-            placeholder="45"
+            placeholder="in Rupees"
           />
         </div>
         <button

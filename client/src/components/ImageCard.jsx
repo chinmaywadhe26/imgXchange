@@ -3,7 +3,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { IoIosHeart } from "react-icons/io";
 const ImageCard = ({ id, img, title, price, author, icon1, icon2 }) => {
   return (
-    <div className="rounded-lg bg-white shadow-lg p-2">
+    <div className="rounded-lg bg-white shadow-lg p-2 h-fit">
       <div className="w-full h-[200px] overflow-hidden rounded-2xl">
         <img
           src={img}
@@ -16,7 +16,7 @@ const ImageCard = ({ id, img, title, price, author, icon1, icon2 }) => {
           <p className="font-semibold text-white bg-black w-fit px-5 py-1 rounded-full text-sm mt-3">
             {"@" + author.charAt(0).toUpperCase() + author.slice(1)}
           </p>
-          <div className="flex items-center   gap-5">
+          <div className="flex items-center justify-center  gap-5">
             {icon1}
             {icon2}
           </div>
