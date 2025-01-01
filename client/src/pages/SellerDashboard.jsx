@@ -10,11 +10,21 @@ const SellerDashboard = () => {
   return (
     <div className="flex flex-col sm:flex-row">
       <DashboardSidebar />
-      {/* <div></div>
-      <PhotoManage  ment />
-      <Analytics/> */}
-      <PhotoManagement />
-      {/* <Analytics /> */}
+      <div>
+        {(() => {
+          switch (tab) {
+            case "photos-management":
+              return <PhotoManagement />;
+            case "analytics":
+              return <Analytics />;
+            case "orders":
+              return <Orders />;
+
+            default:
+              return <PhotoManagement />;
+          }
+        })()}
+      </div>
     </div>
   );
 };

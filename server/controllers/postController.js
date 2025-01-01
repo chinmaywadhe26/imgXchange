@@ -178,7 +178,7 @@ const getPostsByRange = async (req, res) => {
 
         const now = new Date()
         const startOfYear = new Date(now.getFullYear(), 0, 1)
-        const startOfMonth = new Date(now.getFulYear, now.getMonth, 1)
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
         const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay()))
         const postsThisYear = data.filter((post) => new Date(post.createdAt) >= startOfYear)
         const postsThisMonth = data.filter((post) => new Date(post.createdAt) >= startOfMonth)
